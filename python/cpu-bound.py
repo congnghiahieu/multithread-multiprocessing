@@ -6,11 +6,10 @@ from multiprocessing import Process
 
 
 def cpu_task(n):
-    print(f"Process ID: {os.getpid()}")
-    print(f"Thread ID: {threading.get_native_id()}")
+    print(f"PID / TID : {os.getpid()} / {threading.get_native_id()}")
     print(f"Task {n} started")
     # Simulating CPU-bound task
-    math.factorial(10**5)
+    math.factorial(10**6)
     print(f"Task {n} done")
 
 
