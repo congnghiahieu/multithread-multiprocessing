@@ -45,8 +45,10 @@ def compute_zscore_checksum(length: int, seed: int) -> float:
     # return checksum so we don't ship big arrays back
     return sum(abs(z) for z in zs)
 
+
 def _compute_zscore_checksum_wrapper(args):
     return compute_zscore_checksum(*args)
+
 
 # ------------------------------
 # Benchmark runner
@@ -72,9 +74,7 @@ def bench_once(
     with ProcessPoolExecutor(max_workers=max_workers) as ex:
         # map over pairs (length, seed) to avoid pickling large arrays
         it = ((series_len, i * 1315423911) for i in range(n_jobs))
-        for r in ex.map(
-            _compute_zscore_checksum_wrapper, it, chunksize=chunksize_eff
-        ):
+        for r in ex.map(_compute_zscore_checksum_wrapper, it, chunksize=chunksize_eff):
             checksum += r
     dt = time.perf_counter() - t0
     return dt, checksum
